@@ -2,9 +2,10 @@ package service
 
 import(
 	"net/http"
-	"io/ioutil"
+	"io"
+	//"io/ioutil"
 	"encoding/json"
-	_"fmt"
+	//"fmt"
 	"log"
 )
 
@@ -27,8 +28,8 @@ func GetRickandmorty()(*Info,error){
 		return nil , err
 	}
 	if response != nil {
-		log.Println("Reponse: "+response.Status)
-		responseData, err := ioutil.ReadAll(response.Body)
+		log.Println("Reponse: " + response.Status)
+		responseData, err := io.ReadAll(response.Body)
 		if err != nil {
 			log.Println(err.Error())
 			return nil , err

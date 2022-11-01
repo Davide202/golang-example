@@ -2,17 +2,22 @@ package api
 
 import(
 	"log"
+	"net/http"
 	"github.com/gin-gonic/gin"
 	"davidone.it/singers/repository"
 	"davidone.it/singers/service"
 )
 func Router(){
 	router := gin.Default()
+	router.SetTrustedProxies([]string{"192.168.1.2","127.0.0.1"})
+	//router.TrustedPlatform = gin.PlatformGoogleAppEngine
+
 	router.GET("/singers/api/albums", getAlbums)
 	router.Group("/singers/api").GET("/albums/:name", albumsByArtist)
 	router.Group("/singers/api").POST("/albums", addAlbum)
 	router.GET("/rickandmorty",rickAndMorty)
 	router.GET("/", notFound)
+	router.GET("/ping", func(c *gin.Context) {c.String(http.StatusOK, "pong")})
 	router.Run("localhost:8080")
 }
 func getAlbums(c *gin.Context) {
@@ -51,6 +56,7 @@ func notFound(c *gin.Context) {
 }
 
 func rickAndMorty(c *gin.Context){
+	log.Printf("ClientIP: %s\n", c.ClientIP())
 	//var params map[string]string
 	//m := make(map[string]string)
 	body , err := service.GetRickandmorty()
