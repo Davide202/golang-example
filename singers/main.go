@@ -7,7 +7,8 @@ import (
 )
 
 func main() {
-    fmt.Println("Hello, World!")
+    fmt.Println("Singer Application Started!")
 	fmt.Println(utils.ToUpper("Hello, World!"))
 	api.Router()
+	fmt.Println("Singer Application Stopping!")
 }

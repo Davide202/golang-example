@@ -4,12 +4,14 @@ import(
 	"log"
 	"github.com/gin-gonic/gin"
 	"davidone.it/singers/repository"
+	"davidone.it/singers/service"
 )
 func Router(){
 	router := gin.Default()
 	router.GET("/singers/api/albums", getAlbums)
 	router.Group("/singers/api").GET("/albums/:name", albumsByArtist)
 	router.Group("/singers/api").POST("/albums", addAlbum)
+	router.GET("/rickandmorty",rickAndMorty)
 	router.GET("/", notFound)
 	router.Run("localhost:8080")
 }
@@ -46,4 +48,15 @@ func addAlbum(c *gin.Context) {
 
 func notFound(c *gin.Context) {
 	c.String(404,"NO SINGER FOUND")
+}
+
+func rickAndMorty(c *gin.Context){
+	//var params map[string]string
+	//m := make(map[string]string)
+	body , err := service.GetRickandmorty()
+	if err != nil || body == nil {
+		c.JSON(500,err.Error())
+	}
+	c.JSON(200,body)
+	//c.Status(501)
 }
