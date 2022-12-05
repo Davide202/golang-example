@@ -1,4 +1,4 @@
-create database recordings;
+create database if not exists recordings;
 use recordings;
 
 DROP TABLE IF EXISTS album;

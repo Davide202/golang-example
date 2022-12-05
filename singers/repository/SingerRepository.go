@@ -8,8 +8,11 @@ import (
 	"os"
 	//"github.com/google/uuid"
 )
+var init_db string = "create database if not exists recordings; use recordings;  DROP TABLE IF EXISTS album; CREATE TABLE album (   id         INT AUTO_INCREMENT NOT NULL,   title      VARCHAR(128) NOT NULL,   artist     VARCHAR(255) NOT NULL,   price      DECIMAL(5,2) NOT NULL,   PRIMARY KEY (`id`) );  INSERT INTO album   (title, artist, price) VALUES   ('Blue Train', 'John Coltrane', 56.99),   ('Giant Steps', 'John Coltrane', 63.99),   ('Jeru', 'Gerry Mulligan', 17.99),   ('Sarah Vaughan', 'Sarah Vaughan', 34.98);"
 
-var dsn string = "root:admin@tcp(127.0.0.1:3306)/recordings?charset=utf8mb4&parseTime=True&loc=Local"
+//var dsn string = "root:admin@tcp(127.0.0.1:3306)/recordings?charset=utf8mb4&parseTime=True&loc=Local"
+//var dsn string = "https://davide202-probable-rotary-phone-w47vv6wj5jp396xj-3306.preview.app.github.dev/"
+var dsn string = "root:admin@tcp(172.18.0.2:3306)/recordings?charset=utf8mb4&parseTime=True&loc=Local"
 
 type Album struct {
 	//gorm.Model
@@ -40,10 +43,16 @@ func conn() (gorm.DB, error) {
 	log.Println("Env variable: " + user)
 	// refer https://github.com/go-sql-driver/mysql#dsn-data-source-name for details
 	//dsn := "root:admin@tcp(127.0.0.1:3306)/recordings?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	dtb := mysql.Open(dsn)
+	db, err := gorm.Open(dtb, &gorm.Config{})
 	if err != nil {
 		return *db, errors.New("Connection_Error")
 	}
+	database , er := db.DB()
+	if er != nil {
+		return *db, errors.New("Connection_Error")
+	}
+	database.Query(init_db)
 	log.Println("Connection Open: " + db.Name())
 	return *db, nil
 }
@@ -54,6 +63,7 @@ func Create(album Album) error {
 		return err
 	}
 	result := db.Create(&album)
+	db.Commit()
 	return result.Error
 }
 func (u *Album) BeforeCreate(tx *gorm.DB) (err error) {

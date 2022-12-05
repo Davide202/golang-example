@@ -1,0 +1,15 @@
+volumes:
+  data:
+
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: go-database
+    environment:
+      - MYSQL_ROOT_PASSWORD=admin
+      - MYSQL_DATABASE=recordings
+    ports:
+      - 3306:3306
+      - 43306:3306
+    volumes:
+      - data:/var/lib/mysql
