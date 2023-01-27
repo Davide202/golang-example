@@ -1,0 +1,58 @@
+basePath: /
+definitions:
+  users.User:
+    properties:
+      date_created:
+        type: string
+      email:
+        type: string
+      first_name:
+        type: string
+      id:
+        type: integer
+      last_name:
+        type: string
+      password:
+        type: string
+      status:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server celler server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: USERS API
+  version: "1.0"
+paths:
+  /users/{user_id}:
+    get:
+      consumes:
+      - application/json
+      description: description
+      parameters:
+      - description: search by user_id
+        format: int
+        in: path
+        name: user_id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/users.User'
+      summary: GetUserById
+      tags:
+      - users
+schemes:
+- http
+swagger: "2.0"

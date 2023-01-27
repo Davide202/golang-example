@@ -1,0 +1,1284 @@
+{
+	"info": {
+		"_postman_id": "950a4178-b0e0-4c48-80b6-1fa4ad3d3fa7",
+		"name": "Golang",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    var body = JSON.parse(responseBody);\r",
+							"    var id = body.id;\r",
+							"    \r",
+							"    pm.collectionVariables.set('id', JSON.stringify(id));\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"first_name\": \"Davide\",\r\n    \"last_name\": \"D'Innocente\",\r\n    \"email\":\"d.dinnocente@nexum-ai.com\",\r\n    \"password\":\"password\",\r\n    \"date_created\": \"{{sysdate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create User",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"first_name\": \"Davide\",\r\n    \"last_name\": \"D'Innocente\",\r\n    \"email\":\"d.dinnocente@nexum-ai.com\",\r\n    \"password\":\"password\",\r\n    \"date_created\": \"{{sysdate}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 24 Jan 2023 21:43:02 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "211"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 7504504064263669287,\n    \"first_name\": \"Davide\",\n    \"last_name\": \"D'Innocente\",\n    \"email\": \"d.dinnocente@nexum-ai.com\",\n    \"date_created\": \"2023-01-24 21:43:02\",\n    \"status\": \"active\",\n    \"password\": \"5f4dcc3b5aa765d61d8327deb882cf99\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Create User Gorm",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    var body = JSON.parse(responseBody);\r",
+							"    var id = body.id;\r",
+							"    \r",
+							"    pm.collectionVariables.set('id', JSON.stringify(id));\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"first_name\": \"Davide\",\r\n    \"last_name\": \"D'Innocente\",\r\n    \"email\":\"d.dinnocente@nexum-ai.com\",\r\n    \"password\":\"password\",\r\n    \"date_created\": \"{{sysdate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/gorm",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"gorm"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Create User Gorm",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"first_name\": \"Davide\",\r\n    \"last_name\": \"D'Innocente\",\r\n    \"email\":\"d.dinnocente@nexum-ai.com\",\r\n    \"password\":\"password\",\r\n    \"date_created\": \"{{sysdate}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/gorm",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"gorm"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 25 Jan 2023 00:46:40 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "142"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Id\": 1976235410884491574,\n    \"FirstName\": \"\",\n    \"LastName\": \"\",\n    \"Email\": \"d.dinnocente@nexum-ai.com\",\n    \"DateCreated\": \"\",\n    \"Status\": \"\",\n    \"Password\": \"password\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Mock POST",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    var body = JSON.parse(responseBody);\r",
+							"    var id = body.id;\r",
+							"    \r",
+							"    pm.collectionVariables.set('id', JSON.stringify(id));\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"key1\": \"Davide\",\r\n    \"key2\": \"D'Innocente\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/mock/post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"mock",
+						"post"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Mock POST",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"key1\": \"Davide\",\r\n    \"key2\": \"D'Innocente\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8081/mock/post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8081",
+							"path": [
+								"mock",
+								"post"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 26 Jan 2023 20:49:20 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "46"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"key1\": \"Davide_bye\",\n    \"key2\": \"D'Innocente_bye\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Test POST",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 201\", function () {\r",
+							"    pm.response.to.have.status(201);\r",
+							"\r",
+							"    var body = JSON.parse(responseBody);\r",
+							"    var id = body.id;\r",
+							"    \r",
+							"    pm.collectionVariables.set('id', JSON.stringify(id));\r",
+							"\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    \"Davide\",\"D'Innocente\"\r\n]\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/test",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"test"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Mock POST",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"Davide\",\"D'Innocente\"\r\n]\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"test"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 26 Jan 2023 21:33:41 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "46"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"key1\": \"Davide_bye\",\n    \"key2\": \"D'Innocente_bye\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get By Id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/:user_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": "7504504064263669287"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get By Id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/:user_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "7504504064263669287"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 24 Jan 2023 21:45:27 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "179"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 7504504064263669287,\n    \"first_name\": \"Davide\",\n    \"last_name\": \"D'Innocente\",\n    \"email\": \"d.dinnocente@nexum-ai.com\",\n    \"date_created\": \"2023-01-24 21:43:02\",\n    \"status\": \"active\",\n    \"password\": \"\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Get By Email",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/gorm/email/:email",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"gorm",
+						"email",
+						":email"
+					],
+					"variable": [
+						{
+							"key": "email",
+							"value": "d.dinnocente@nexum-ai.com"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get By Email",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/gorm/email/:email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"gorm",
+								"email",
+								":email"
+							],
+							"variable": [
+								{
+									"key": "email",
+									"value": "d.dinnocente@nexum-ai.com"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 25 Jan 2023 00:42:35 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1909"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-23 17:21:48\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-24 21:42:59\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-23 17:21:50\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-24 21:43:00\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-23 11:33:22\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-23 11:32:43\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-24 21:43:01\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-23 11:24:35\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-23 11:27:08\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-23 11:36:36\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-24 21:43:02\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    },\n    {\n        \"Id\": 0,\n        \"FirstName\": \"Davide\",\n        \"LastName\": \"D'Innocente\",\n        \"Email\": \"d.dinnocente@nexum-ai.com\",\n        \"DateCreated\": \"2023-01-23 11:25:58\",\n        \"Status\": \"active\",\n        \"Password\": \"\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Update",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"first_name\": \"Davide\",\r\n    \"last_name\": \"D'Innocente\",\r\n    \"email\":\"d.dinnocente@nexum-ai.com\",\r\n    \"password\":\"password3\",\r\n    \"status\":\"...\",\r\n    \"date_created\": \"{{sysdate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/:user_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": "7504504064263669287"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"first_name\": \"Davide\",\r\n    \"last_name\": \"D'Innocente\",\r\n    \"email\":\"d.dinnocente@nexum-ai.com\",\r\n    \"password\":\"password3\",\r\n    \"status\":\"...\",\r\n    \"date_created\": \"{{sysdate}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/:user_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "7504504064263669287"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 24 Jan 2023 21:46:02 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "179"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 7504504064263669287,\n    \"first_name\": \"Davide\",\n    \"last_name\": \"D'Innocente\",\n    \"email\": \"d.dinnocente@nexum-ai.com\",\n    \"date_created\": \"2023-01-24 21:43:02\",\n    \"status\": \"active\",\n    \"password\": \"\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Copy",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Davidone\",\r\n    \"surname\": \"D'Innocente\",\r\n    \"datetime\": \"{{sysdate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/:user_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": "7504504064263669287"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update Copy",
+					"originalRequest": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Davidone\",\r\n    \"surname\": \"D'Innocente\",\r\n    \"datetime\": \"{{sysdate}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/:user_id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								":user_id"
+							],
+							"variable": [
+								{
+									"key": "user_id",
+									"value": "7504504064263669287"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 24 Jan 2023 21:49:44 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "179"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 7504504064263669287,\n    \"first_name\": \"Davide\",\n    \"last_name\": \"D'Innocente\",\n    \"email\": \"d.dinnocente@nexum-ai.com\",\n    \"date_created\": \"2023-01-24 21:43:02\",\n    \"status\": \"active\",\n    \"password\": \"\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Delete By Id",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/:user_id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						":user_id"
+					],
+					"variable": [
+						{
+							"key": "user_id",
+							"value": ""
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Internal Search",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/internal/users/search?status=active",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"internal",
+						"users",
+						"search"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "active"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Internal Search",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/internal/users/search?status=active",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"internal",
+								"users",
+								"search"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "active"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 24 Jan 2023 21:47:39 GMT"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"id\": 605394647632969758,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-23 17:21:48\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 894385949183117216,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-24 21:42:59\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 1443635317331776148,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-23 17:21:50\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 2775422040480279449,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-24 21:43:00\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 3916589616287113937,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-23 11:33:22\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 4037200794235010051,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-23 11:32:43\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 4751997750760398084,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-24 21:43:01\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 5577006791947779410,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-23 11:24:35\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 6129484611666145821,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-23 11:27:08\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 6334824724549167320,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-23 11:36:36\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 7504504064263669287,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-24 21:43:02\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    },\n    {\n        \"id\": 8674665223082153551,\n        \"first_name\": \"Davide\",\n        \"last_name\": \"D'Innocente\",\n        \"email\": \"d.dinnocente@nexum-ai.com\",\n        \"date_created\": \"2023-01-23 11:25:58\",\n        \"status\": \"active\",\n        \"password\": \"\"\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "User Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \r\n    \"email\":\"d.dinnocente@nexum-ai.com\",\r\n    \"password\":\"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/users/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "User Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \r\n    \"email\":\"d.dinnocente@nexum-ai.com\",\r\n    \"password\":\"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"users",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 24 Jan 2023 21:50:53 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "210"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"id\": 605394647632969758,\n    \"first_name\": \"Davide\",\n    \"last_name\": \"D'Innocente\",\n    \"email\": \"d.dinnocente@nexum-ai.com\",\n    \"date_created\": \"2023-01-23 17:21:48\",\n    \"status\": \"active\",\n    \"password\": \"5f4dcc3b5aa765d61d8327deb882cf99\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Ping",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var moment = require('moment');\r",
+							"\r",
+							"// Set local variables to use in API requests\r",
+							"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Davidone\",\r\n    \"surname\": \"D'Innocente\",\r\n    \"datetime\": \"{{sysdate}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/ping",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ping"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Ping",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/ping",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ping"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "plain",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "text/plain; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 24 Jan 2023 21:51:04 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4"
+						}
+					],
+					"cookie": [],
+					"body": "pong"
+				}
+			]
+		},
+		{
+			"name": "Rick And Morty",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/rickandmorty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"rickandmorty"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Rick And Morty",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/rickandmorty",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"rickandmorty"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 26 Jan 2023 18:10:24 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "166"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Characters\": \"https://rickandmortyapi.com/api/character\",\n    \"Locations\": \"https://rickandmortyapi.com/api/location\",\n    \"Episodes\": \"https://rickandmortyapi.com/api/episode\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"var moment = require('moment');",
+					"",
+					"// Set local variables to use in API requests",
+					"pm.variables.set('sysdate', moment().format('YYYY-MM-DDTHH:MM:ssZ'));"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
