@@ -1,12 +1,12 @@
 package gorm
 
 import (
+	"database/sql"
 	"fmt"
-	"log"
-	"math/rand"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"log"
+	"math/rand"
 )
 
 var dataSourceName = fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
@@ -55,6 +55,7 @@ func GetUserByEmail(email *string) ([]User, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	const per string = "%"
 	param := per + *email + per
 	rows, err := db.Model(&User{}).Where("email LIKE ?", param).Find(&UserDTO{}).Rows()
@@ -71,6 +72,7 @@ func GetUserByEmail(email *string) ([]User, error) {
 		}
 		users = append(users, user)
 	}
+
 	return users, nil
 }
 
@@ -80,8 +82,14 @@ func Create(user *User) error {
 	if err != nil {
 		return err
 	}
-	result := db.Create(&user)
-	return result.Error
+	db.Transaction(func(tx *gorm.DB) error {
+		// do some database operations in the transaction (use 'tx' from this point, not 'db')
+		result := tx.Create(&user)
+		return result.Error
+	})
+	//result := db.Create(&user)
+	//return result.Error
+	return nil
 }
 
 func Update(user *User) error {
@@ -90,6 +98,16 @@ func Update(user *User) error {
 	if err != nil {
 		return err
 	}
-	result := db.Save(&user)
-	return result.Error
+	tx := db.Begin(&sql.TxOptions{
+		Isolation: sql.IsolationLevel(sql.LevelWriteCommitted),
+		ReadOnly:  false,
+	})
+	defer tx.Rollback()
+
+	err = tx.Save(&user).Error
+	if err != nil {
+		return nil
+	}
+	//result := db.Save(&user)
+	return tx.Commit().Error
 }

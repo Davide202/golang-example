@@ -3,13 +3,10 @@ package function
 import (
 	"context"
 	"encoding/json"
-	
+
 	"fmt"
 	"log"
-	"os"
-	
 
-	"cloud.google.com/go/pubsub"
 	"github.com/GoogleCloudPlatform/functions-framework-go/functions"
 	"github.com/cloudevents/sdk-go/v2/event"
 )
@@ -17,7 +14,7 @@ import (
 type User struct {
 	Name    string `json:"name"`
 	Surname string `json:"surname"`
-	Info    string `json:"info"`
+	//Info    string `json:"info"`
 }
 
 func (u User) String() string {
@@ -32,14 +29,15 @@ func init() {
 func helloPubSub(ctx context.Context, e event.Event) error {
 	var err error
 	var user User
-	log.Printf("Received: %v", e.String())
+	log.Printf("Received Message from Pub/Sub")
 
 	//VERSION 1
-	/*	
+
+	log.Printf("Received: %v", e.String())
 	log.Printf("ID: %v", e.ID())
 	log.Printf("Extensions: %v", e.Extensions())
+	log.Printf("Extensions: %v", e.Data())
 
-	
 	if err = e.DataAs(&user); err != nil {
 		return fmt.Errorf("event.DataAs: %v", err)
 	}
@@ -50,26 +48,31 @@ func helloPubSub(ctx context.Context, e event.Event) error {
 		return fmt.Errorf("event.DataAs: %v", err)
 	}
 	log.Printf("User: %v", user.String())
-*/
-	// VERSION 2
-	//topicID := os.Getenv("TOPIC")
-	projectID := os.Getenv("PROJECT_ID")
-	subscriptionID := os.Getenv("SUBSCRIPTION")
+	/*
+		// VERSION 2
+		//topicID := os.Getenv("TOPIC")
+		projectID := os.Getenv("PROJECT_ID")
+		subscriptionID := os.Getenv("SUBSCRIPTION")
+		log.Printf("Project: %v - Subscription: %v \n", projectID, subscriptionID)
 
-	//ctx = context.Background()
-	client, err := pubsub.NewClient(ctx, projectID)
-	sub := client.Subscription(subscriptionID)
-	if err != nil {
-		log.Fatalf("Start: %v\n", err)
-	}
-	sub.Receive(ctx,func(ctx context.Context, m *pubsub.Message) {
-		err = json.Unmarshal(m.Data, &user)
-		log.Printf("User: %v", user.String())
-		m.Ack()
-	})
-
-
-
-
+		//ctx = context.Background()
+		client, err := pubsub.NewClient(ctx, projectID)
+		if err != nil {
+			log.Printf("Error creating client: %v\n", err)
+		}
+		sub := client.Subscription(subscriptionID)
+		if err != nil {
+			log.Printf("Error creating subscription: %v\n", err)
+		}
+		sub.Receive(ctx, func(ctx context.Context, m *pubsub.Message) {
+			log.Printf("Got message: %s", m.Data)
+			err = json.Unmarshal(m.Data, &user)
+			if err != nil {
+				log.Printf("Error Unmashal User %v", err.Error())
+			}
+			log.Printf("User: %v", user.String())
+			m.Ack()
+		})
+	*/
 	return nil
 }

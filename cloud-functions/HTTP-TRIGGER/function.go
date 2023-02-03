@@ -1,6 +1,7 @@
 package function
 
 import (
+	"bytes"
 	"context"
 	"encoding/json"
 	"fmt"
@@ -21,7 +22,7 @@ type User struct {
 }
 
 func (u User) String() string {
-	return fmt.Sprintf("\nName: %v, \nSurname %v", u.Name, u.Surname)
+	return fmt.Sprintf("\nName: %v, \nSurname: %v", u.Name, u.Surname)
 }
 
 func init() {
@@ -49,11 +50,11 @@ func welcome(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintln(w, "Error")
 	} else {
 		//publishUserToPubSub(w, &user)
-		//io.WriteString([]string{json_data})
+		//io.WriteString(w,string(json_data))
 		w.Header().Add("Content-Type", "application/json")
 		w.Write(json_data)
 		//res := bytes.NewBuffer(json_data)
-		//fmt.Fprintln(w, res) //http://localhost:8080?name=Davide&surname=D'Innocente
+		//fmt.Fprintln(w, res) //http://localhost:8081?name=Davide&surname=D'Innocente
 	}
 }
 
