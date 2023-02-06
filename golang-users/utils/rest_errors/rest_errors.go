@@ -78,6 +78,13 @@ func NewUnauthorizedError(message string) RestErr {
 		ErrError:   "unauthorized",
 	}
 }
+func NewForbiddenError(message string) RestErr {
+	return restErr{
+		ErrMessage: message,
+		ErrStatus:  http.StatusForbidden,
+		ErrError:   "forbidden",
+	}
+}
 
 func NewInternalServerError(message string, err error) RestErr {
 	result := restErr{

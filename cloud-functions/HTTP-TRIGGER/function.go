@@ -1,7 +1,7 @@
 package function
 
 import (
-	"bytes"
+	_"bytes"
 	"context"
 	"encoding/json"
 	"fmt"

@@ -20,3 +20,27 @@ func GetNowString() string {
 func GetNowDBFormat() string {
 	return GetNow().Format(apiDbLayout)
 }
+
+func AddHoursDBFormat(hours int) string {
+	return AddHours(hours).Format(apiDbLayout)
+}
+
+func AddHours(hours int) time.Time {
+	timein := add(hours, 0, 0)
+	return timein
+}
+
+func add(hours, mins, secs int) time.Time {
+	timein := GetNow().Add(time.Hour*time.Duration(hours) +
+		time.Minute*time.Duration(mins) +
+		time.Second*time.Duration(secs))
+	return timein
+}
+
+func IsExpired(expire int64) bool {
+	now := GetNow().Unix()
+	if expire < now {
+		return false
+	}
+	return true
+}
