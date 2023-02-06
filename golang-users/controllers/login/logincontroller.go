@@ -1,8 +1,19 @@
 package login
 
-import "github.com/gin-gonic/gin"
+import (
+	create "golang-users/security/create"
+	verify "golang-users/security/verify"
+	"strings"
 
-func login(c *gin.Context) {
+	"github.com/gin-gonic/gin"
+)
+
+const (
+	AUTHORIZATION = "Authorization"
+	BEARER        = "Bearer "
+)
+
+func Login(c *gin.Context) {
 
 	email := c.Query("email")
 	password := c.Query("password")
@@ -12,14 +23,31 @@ func login(c *gin.Context) {
 		c.JSON(401, err.Error())
 		return
 	}
-	c.Header("Authorization", "Bearer "+token)
-	c.JSON(200, token)
+	c.Header(AUTHORIZATION, BEARER+*token)
+	c.String(200, "http://localhost:8080/verifytoken")
 }
 
-func handleLogin(email, password string) (string, error) {
-	//RECUPERO LA PASSWORD SUL DB E LA VERIFICO
+func handleLogin(email, password string) (*string, error) {
+	//RECUPERO LA PASSWORD, RUOLO E DELAY SUL DB E LA VERIFICO
+	userRole := create.User
+	//SE OK COSTRUISCO UserInfo E CREO IL TOKEN
 
-	//SE OK
+	userInfo := create.CreateUserInfo(email, userRole, 3)
 
-	return "Token", nil
+	token, err := create.CreateToken(userInfo)
+	if err != nil {
+		return nil, err
+	}
+	return token, nil
+}
+
+func VerifyToken(c *gin.Context) {
+	authorization := c.Request.Header.Get(AUTHORIZATION)
+	tokenString := strings.SplitAfter(authorization, " ")[1]
+	name, err := verify.VerifyToken(tokenString, verify.User)
+	if err != nil {
+		c.JSON(err.Status(), err)
+		return
+	}
+	c.String(200, *name+" is authenticated")
 }

@@ -1,4 +1,4 @@
-package security
+package create
 
 const (
 	Admin   Role = "ADMIN"
@@ -15,20 +15,16 @@ type RoleInterf interface {
 
 type Role string
 
-func (r *Role) fromString(str string) {
-	role := getRole(str)
-	r = &role
-}
-
-type Roles []Role
-
-func GetRoles(str string) map[string]Roles {
-	role := getRole(str)
-	var roles []Role
-	roles = append(roles, role)
-	return map[string]Roles{
-		ROLE: roles,
+func (r Role) String() string {
+	switch r {
+	case Admin:
+		return "ADMIN"
+	case User:
+		return "USER"
+	case Viewer:
+		return "VIEWER"
 	}
+	return "UNKNOWN"
 }
 
 func getRole(str string) Role {
@@ -41,22 +37,4 @@ func getRole(str string) Role {
 		return Viewer
 	}
 	return UNKNOWN
-}
-
-func AdminRole() map[string]string {
-	return map[string]string{
-		ROLE: string(Admin),
-	}
-}
-
-func UserRole() map[string]string {
-	return map[string]string{
-		ROLE: string(User),
-	}
-}
-
-func ViewerRole() map[string]string {
-	return map[string]string{
-		ROLE: string(Viewer),
-	}
 }

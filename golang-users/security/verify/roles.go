@@ -1,4 +1,4 @@
-package security
+package verify
 
 const (
 	Admin   Role = "ADMIN"
@@ -18,6 +18,17 @@ type Role string
 func (r *Role) fromString(str string) {
 	role := getRole(str)
 	r = &role
+}
+func (r Role) String() string {
+	switch r {
+	case Admin:
+		return "ADMIN"
+	case User:
+		return "USER"
+	case Viewer:
+		return "VIEWER"
+	}
+	return "UNKNOWN"
 }
 
 type Roles []Role

@@ -1,6 +1,7 @@
 package app
 
 import (
+	"golang-users/controllers/login"
 	"golang-users/controllers/ping"
 	"golang-users/controllers/users"
 
@@ -11,6 +12,8 @@ func MapUrls(router *gin.Engine) {
 	router.GET("/ping", ping.Ping)
 	router.GET("/rickandmorty", ping.RickAndMorty)
 	router.POST("/test", ping.PostMock)
+	router.GET("/login", login.Login)
+	router.GET("/verifytoken", login.VerifyToken)
 
 	router.POST("/users", users.Create)
 	router.GET("/users/:user_id", users.Get)

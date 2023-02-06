@@ -1,4 +1,4 @@
-package security
+package create
 
 import (
 	"golang-users/security/generatekeys"
@@ -8,27 +8,33 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
+const (
+	ExpiresAt = "ExpiresAt"
+	USER_NAME = "Name"
+	USER_ROLE = "Role"
+)
+
 type UserInfo struct {
 	name  string
 	role  Role
 	hours int
 }
 
-type CustomClaims struct {
-	*jwt.StandardClaims
-	info UserInfo
+func CreateUserInfo(name string, role Role, hours int) UserInfo {
+	return UserInfo{name: name, role: role, hours: hours}
 }
 
 func CreateToken(user UserInfo) (*string, error) {
-	t := jwt.New(jwt.GetSigningMethod("RS256"))
-	t.Claims = &CustomClaims{
-		&jwt.StandardClaims{
-			ExpiresAt: date_utils.AddHours(user.hours).Unix(),
-		},
-		user,
+	t := jwt.New(jwt.SigningMethodRS256)
+	t.Claims = jwt.MapClaims{
+		ExpiresAt: date_utils.AddHours(user.hours).Unix(),
+		USER_NAME: user.name,
+		USER_ROLE: user.role,
 	}
-	token, err := t.SignedString(generatekeys.SignKey)
+	log.Println("Signing token...")
+	token, err := t.SignedString(generatekeys.PRIVATE_KEY)
 	if err != nil {
+		log.Println("Error signing token")
 		return nil, err
 	}
 	log.Printf("Generated JWT: %v", token)

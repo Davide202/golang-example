@@ -39,8 +39,5 @@ func add(hours, mins, secs int) time.Time {
 
 func IsExpired(expire int64) bool {
 	now := GetNow().Unix()
-	if expire < now {
-		return false
-	}
-	return true
+	return expire < now
 }

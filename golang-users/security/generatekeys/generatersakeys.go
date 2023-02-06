@@ -1,34 +1,102 @@
 package generatekeys
 
 import (
+	"crypto/rand"
 	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
 	_ "io"
+	"log"
 	"os"
-	"strings"
+	_ "strings"
+
+	"golang.org/x/crypto/ssh"
 )
 
-const private_key = "privateKey"
+//const private_key = "privateKey"
 
 var (
-	SignKey   *rsa.PrivateKey
-	VerifyKey *rsa.PublicKey
+	PRIVATE_KEY *rsa.PrivateKey
+	PUBLIC_KEY  *rsa.PublicKey
 )
 
 func init() {
-
-	if os.Getenv(private_key) == "" {
-		os.Setenv(private_key, "sono la chiave privata")
+	var err error
+	private, err := os.ReadFile("./private.pem")
+	if err != nil || private == nil {
+		generateNewKeyPairs()
 	}
+	log.Printf("File %T is present", private)
+	privatekey := loadRsaPrivateKey()
+	if privatekey == nil {
+		panic("ERROR READING PRIVATE.PEM FILE")
+	}
+	PRIVATE_KEY = privatekey
+	PUBLIC_KEY = &privatekey.PublicKey
+}
 
-	seed := os.Getenv(private_key)
-
-	reader := strings.NewReader(seed)
-
-	privateKey, err := rsa.GenerateKey(reader, 21)
+func loadRsaPrivateKey() *rsa.PrivateKey {
+	bytes, err := os.ReadFile("./private.pem")
 	if err != nil {
-		return
+		return nil
 	}
-	SignKey = privateKey
+	key, err := ssh.ParseRawPrivateKey(bytes)
+	if err != nil {
+		log.Println("Error Loading Private Key")
+		return nil
+	}
+	return key.(*rsa.PrivateKey)
+}
 
-	VerifyKey = &SignKey.PublicKey
+func generateNewKeyPairs() {
+	log.Println("Generating New Key Pair Files")
+	// generate key
+	privatekey, err := rsa.GenerateKey(rand.Reader, 2048)
+	if err != nil {
+		log.Printf("Cannot generate RSA key\n")
+		os.Exit(1)
+	}
+	publickey := &privatekey.PublicKey
+	PRIVATE_KEY = privatekey
+	PUBLIC_KEY = publickey
+
+	// dump private key to file
+	var privateKeyBytes []byte = x509.MarshalPKCS1PrivateKey(privatekey)
+	privateKeyBlock := &pem.Block{
+		Type:  "RSA PRIVATE KEY",
+		Bytes: privateKeyBytes,
+	}
+	privatePem, err := os.Create("private.pem")
+	if err != nil {
+		log.Printf("error when create private.pem: %s \n", err)
+		os.Exit(1)
+	}
+	err = pem.Encode(privatePem, privateKeyBlock)
+	if err != nil {
+		log.Printf("error when encode private pem: %s \n", err)
+		os.Exit(1)
+	}
+
+	// dump public key to file
+	publicKeyBytes, err := x509.MarshalPKIXPublicKey(publickey)
+	if err != nil {
+		log.Printf("error when dumping publickey: %s \n", err)
+		os.Exit(1)
+	}
+	publicKeyBlock := &pem.Block{
+		Type:  "PUBLIC KEY",
+		Bytes: publicKeyBytes,
+	}
+	publicPem, err := os.Create("public.pem")
+	if err != nil {
+		log.Printf("error when create public.pem: %s \n", err)
+		os.Exit(1)
+	}
+	err = pem.Encode(publicPem, publicKeyBlock)
+	if err != nil {
+		log.Printf("error when encode public pem: %s \n", err)
+		os.Exit(1)
+	}
+
+	log.Println("Generated New Key Pair Files")
 }
