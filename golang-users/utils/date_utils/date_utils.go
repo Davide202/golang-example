@@ -1,6 +1,8 @@
 package date_utils
 
 import (
+	"log"
+	"strconv"
 	"time"
 )
 
@@ -30,6 +32,13 @@ func AddHours(hours int) time.Time {
 	return timein
 }
 
+func AddHoursToUnixToString(in int) string {
+	return strconv.FormatInt(AddHours(in).Unix(), 10)
+}
+func StringToUnixDate(in string) (int64, error) {
+	return strconv.ParseInt(in, 10, 64)
+}
+
 func add(hours, mins, secs int) time.Time {
 	timein := GetNow().Add(time.Hour*time.Duration(hours) +
 		time.Minute*time.Duration(mins) +
@@ -38,6 +47,16 @@ func add(hours, mins, secs int) time.Time {
 }
 
 func IsExpired(expire int64) bool {
+	now := GetNow().Unix()
+	return expire < now
+}
+
+func IsExpiredFromString(in string) bool {
+	expire, err := StringToUnixDate(in)
+	if err != nil {
+		log.Println("Conversion Error " + err.Error())
+		return true
+	}
 	now := GetNow().Unix()
 	return expire < now
 }

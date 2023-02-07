@@ -2,7 +2,7 @@ package create
 
 import (
 	"golang-users/security/generatekeys"
-	"golang-users/utils/date_utils"
+	date "golang-users/utils/date_utils"
 	"log"
 
 	"github.com/golang-jwt/jwt"
@@ -27,7 +27,7 @@ func CreateUserInfo(name string, role Role, hours int) UserInfo {
 func CreateToken(user UserInfo) (*string, error) {
 	t := jwt.New(jwt.SigningMethodRS256)
 	t.Claims = jwt.MapClaims{
-		ExpiresAt: date_utils.AddHours(user.hours).Unix(),
+		ExpiresAt: date.AddHoursToUnixToString(user.hours),
 		USER_NAME: user.name,
 		USER_ROLE: user.role,
 	}

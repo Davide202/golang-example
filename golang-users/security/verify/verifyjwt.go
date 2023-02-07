@@ -2,6 +2,7 @@ package verify
 
 import (
 	"golang-users/security/generatekeys"
+	date "golang-users/utils/date_utils"
 	resterrors "golang-users/utils/rest_errors"
 	"log"
 
@@ -29,8 +30,13 @@ func VerifyToken(tokenString string, r Role) (*string, resterrors.RestErr) {
 	}
 	name := claims[USER_NAME].(string)
 	role := claims[USER_ROLE].(string)
+	expire := claims[ExpiresAt].(string)
 
 	log.Println("Token Claims[ Name: " + name + ", Role: " + role + " ]")
+
+	if date.IsExpiredFromString(expire) {
+		return nil, resterrors.NewForbiddenError("Token is Expired " + err.Error()) //FORBIDDEN 403
+	}
 
 	if role != r.String() {
 		return nil, resterrors.NewForbiddenError("Token Role Not Valid") //FORBIDDEN 403

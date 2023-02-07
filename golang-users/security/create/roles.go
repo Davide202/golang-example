@@ -6,7 +6,7 @@ const (
 	Viewer  Role = "VIEWER"
 	UNKNOWN Role = "UNKNOWN"
 
-	ROLE = "ROLE"
+	//ROLE = "ROLE"
 )
 
 type RoleInterf interface {
