@@ -31,8 +31,8 @@ func handleLogin(email, password string) (*string, error) {
 	//RECUPERO LA PASSWORD, RUOLO E DELAY SUL DB E LA VERIFICO
 	userRole := create.User
 	//SE OK COSTRUISCO UserInfo E CREO IL TOKEN
-
-	userInfo := create.CreateUserInfo(email, userRole, 3)
+	var userInfo create.UserInfo
+	userInfo = userInfo.CreateUserInfo(email, userRole, 3)
 
 	token, err := create.CreateToken(userInfo)
 	if err != nil {

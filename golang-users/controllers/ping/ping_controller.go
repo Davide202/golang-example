@@ -5,6 +5,10 @@ import (
 	"log"
 	"net/http"
 
+	"image/png"
+
+	"github.com/boombuler/barcode"
+	"github.com/boombuler/barcode/qr"
 	"github.com/gin-gonic/gin"
 )
 
@@ -36,4 +40,13 @@ func PostMock(c *gin.Context) {
 		return
 	}
 	c.JSON(200, body)
+}
+
+func QRcontroller(c *gin.Context) {
+	dataString := c.Param("stringa")
+
+	qrCode, _ := qr.Encode(dataString, qr.L, qr.Auto)
+	qrCode, _ = barcode.Scale(qrCode, 200, 200)
+
+	png.Encode(c.Writer, qrCode)
 }

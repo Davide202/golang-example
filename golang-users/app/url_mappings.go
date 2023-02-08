@@ -25,4 +25,5 @@ func MapUrls(router *gin.Engine) {
 	router.GET("/internal/users/search", users.Search)
 	router.POST("/users/login", users.Login)
 
+	router.GET("/qr/:stringa", ping.QRcontroller)
 }

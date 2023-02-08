@@ -1250,6 +1250,92 @@
 					"body": "{\n    \"Characters\": \"https://rickandmortyapi.com/api/character\",\n    \"Locations\": \"https://rickandmortyapi.com/api/location\",\n    \"Episodes\": \"https://rickandmortyapi.com/api/episode\"\n}"
 				}
 			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/login?email=davidone&password=qwerty",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "davidone"
+						},
+						{
+							"key": "password",
+							"value": "qwerty"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "verifytoken",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJFeHBpcmVzQXQiOiIxNjc1ODg4NDE4IiwiTmFtZSI6ImRhdmlkb25lIiwiUm9sZSI6IlVTRVIifQ.I671SoZGmWdZ73sWxbgPgPyH9Ns3OzT30AHdCl4MtroJtCECsEdRbrvBFxsXzK7fRJdMn0GoJ4OtCVRenb-g1a44G9Tw80tnT-v9YssOB6cgmJN6NgcVNRgDhPo7Bf5OjwVgeoxINm49DQI7kG4yuYzbVDbCQug20DpC3mLoBunMeXm2W7oOjLrpIL05_l0_TLu_oMfLOePtuntSsUwHaPMbzXOkzXLZL0x7ObnDvGQuFkc9aAeSKy7-xRnFfHJiVjM89jIXGs6eYIVL8yELlifwWcepCOMUMBd7gzt-Scf93-NLu_44qlvBuHg6Uyr1c7yuEb_dp0XDhOA7_1xubQ",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/verifytoken",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"verifytoken"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get QR",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/qr/:string",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"qr",
+						":string"
+					],
+					"variable": [
+						{
+							"key": "string",
+							"value": "davidone"
+						}
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -1279,6 +1365,10 @@
 		{
 			"key": "id",
 			"value": ""
+		},
+		{
+			"key": "bearerToken",
+			"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9"
 		}
 	]
 }

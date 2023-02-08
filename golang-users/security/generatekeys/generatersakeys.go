@@ -21,6 +21,7 @@ var (
 )
 
 func init() {
+
 	var err error
 	private, err := os.ReadFile("./private.pem")
 	if err != nil || private == nil {
@@ -33,9 +34,22 @@ func init() {
 	}
 	PRIVATE_KEY = privatekey
 	PUBLIC_KEY = &privatekey.PublicKey
+
+}
+
+func loadRsaPrivateKeyFromBytes(bytes []byte) *rsa.PrivateKey {
+
+	key, err := ssh.ParseRawPrivateKey(bytes)
+	if err != nil {
+		log.Println("Error Loading Private Key")
+		return nil
+	}
+	return key.(*rsa.PrivateKey)
+
 }
 
 func loadRsaPrivateKey() *rsa.PrivateKey {
+
 	bytes, err := os.ReadFile("./private.pem")
 	if err != nil {
 		return nil
@@ -46,6 +60,7 @@ func loadRsaPrivateKey() *rsa.PrivateKey {
 		return nil
 	}
 	return key.(*rsa.PrivateKey)
+
 }
 
 func generateNewKeyPairs() {
