@@ -1,1 +1,7 @@
 .vscode
+golang-users/.vscode
+golang-users/vendor
+cloud-functions/.vscode
+routines/.vscode
+singers/.vscode
+
