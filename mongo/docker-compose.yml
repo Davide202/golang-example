@@ -1,0 +1,17 @@
+volumes:
+  data:
+
+services:
+  mysql:
+    image: mongo
+    restart: always
+    container_name: db_mongo
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+    ports:
+      - 27071:27017
+    volumes:
+      - data:/var/lib/mongo
+
+# docker exec -it db_mongo bash
