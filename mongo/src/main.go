@@ -2,93 +2,109 @@ package main
 
 import (
 	"context"
-
-	"log"
+	"fmt"
+	"net/http"
+	"os"
+	"startwithmongo/app"
+	"startwithmongo/repository"
+	"startwithmongo/util/logger"
 	"time"
 
-	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
+const(
+	DATABASE = "golang"
+	SERVER_ADDRESS = "SERVER_ADDRESS"
+	SERVER_PORT = "SERVER_PORT"
+	MONGO_URI = "MONGO_URI"
+	MONGO_USERNAME = " MONGO_INITDB_ROOT_USERNAME"
+	MONGO_PASSWORD = "MONGO_INITDB_ROOT_PASSWORD"
 
-func main() {
-	insert()
-	retrieve()
-}
-
-const (
-	database   = "golang"
-	collection = "users"
 )
+var(
+	//Application Configuration
+	serverAddr = "localhost"
+	serverPort = "4000"
+	//MongoDB Configuration
+	mongoURI = "mongodb://localhost:27071"
+	mongoUser = "mongoadmin"
+	mongoPass = "secret"
+) 
 
-func retrieve() {
-	db, client, ctx, err := Connect()
-	defer client.Disconnect(ctx)
-	if err != nil {
-		log.Fatalln("Connection Error: " + err.Error())
+func initializeVariables(){
+	servA , b := os.LookupEnv(SERVER_ADDRESS)
+	if b {
+		serverAddr = servA
 	}
-	coll := db.Collection(collection)
-	//filter := bson.D{{Key: "hello", Value: "world"}}
-	filter := bson.D{{Key: "davide"},{Key: "hello"}}
-	cur, err := coll.Find(ctx, filter)
-	if err == mongo.ErrNoDocuments {
-		// Do something when no record was found
-		log.Println("record does not exist")
-	} else if err != nil {
-		log.Fatal("Error in Find by filter: " + err.Error())
+	servP , b := os.LookupEnv(SERVER_PORT)
+	if b {
+		serverPort = servP
 	}
-	defer cur.Close(ctx)
-	for cur.Next(ctx) {
-		var result bson.D
-		err := cur.Decode(&result)
-		if err != nil {
-			log.Fatal(err)
-		}
-		log.Println(result.Map()["hello"])
-		log.Println(result.Map()["davide"])
+	mongo , b := os.LookupEnv(MONGO_URI)
+	if b {
+		mongoURI = mongo
 	}
-	if err := cur.Err(); err != nil {
-		log.Fatal(err)
+	mongoU , b := os.LookupEnv(MONGO_USERNAME)
+	if b {
+		mongoUser = mongoU
 	}
+	mongoP , b := os.LookupEnv(MONGO_PASSWORD)
+	if b {
+		mongoPass = mongoP 
+	}
+
 }
 
-func insert() {
-	db, client, ctx, err := Connect()
-	defer client.Disconnect(ctx)
-	if err != nil {
-		log.Fatalln("Connection Error: " + err.Error())
-	}
-	coll := db.Collection(collection)
-	coll.InsertOne(context.Background(), bson.M{"hello": "world"})
-	coll.InsertOne(context.Background(), bson.D{{Key: "davide", Value: "dinnocente"}})
-	log.Println("Inserted")
-}
 
-func Connect() (*mongo.Database, *mongo.Client, context.Context, error) {
-	log.Println("Connecting With Mongo")
-	uri := "mongodb://mongoadmin:secret@localhost:27071/?timeoutMS=5000"
-	client, err := mongo.NewClient(options.Client().ApplyURI(uri))
-	if err != nil {
-		log.Fatalln("Connection Error: " + err.Error())
-		return nil, nil, nil, err
+func main(){
+	logger.Info().Println("Starting Application")
+	initializeVariables()
+	
+
+	// Create mongo client configuration
+	co := options.Client().ApplyURI(mongoURI)
+	co.Auth = &options.Credential{
+		Username: mongoUser,
+		Password: mongoPass,
 	}
-	log.Println("Client created")
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	//ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	//defer cancel()
+	// Establish database connection
+	client, err := mongo.NewClient(co)
+	if err != nil {
+		logger.Error().Fatal(err)
+	}
+	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	defer cancel()
+	
 
 	err = client.Connect(ctx)
 	if err != nil {
-		log.Fatalln("Connection Error: " + err.Error())
-		return nil, nil, nil, err
+		logger.Error().Fatal(err)
 	}
-	log.Println("Client connected")
-	db := client.Database(database)
-	log.Println("Database retrieved")
-	return db, client, ctx, nil
-}
 
-/*
-log.Panicln(err.Error()) //https://github.com/vitessio/vitess/issues/2842
-log.Fatalln(err.Error())
-*/
+	defer func() {
+		if err = client.Disconnect(ctx); err != nil {
+			logger.Error().Fatal(err)
+		}
+	}()
+	logger.Info().Printf("Database connection established")
+
+	Datab := client.Database(DATABASE)
+	
+	(&repository.DB).Set(Datab,ctx)
+
+	// Initialize a new instance of application containing the dependencies.
+	serverURI := fmt.Sprintf("%s:%d", serverAddr, serverPort)
+	srv := &http.Server{
+		Addr:         serverURI,
+		ErrorLog:     logger.Error(),
+		Handler:      app.Routes(),
+		IdleTimeout:  time.Minute,
+		ReadTimeout:  5 * time.Second,
+		WriteTimeout: 10 * time.Second,
+	}
+
+	logger.Info().Printf("Starting server on %s", serverURI)
+	err = srv.ListenAndServe()
+	logger.Error().Fatal(err)
+}

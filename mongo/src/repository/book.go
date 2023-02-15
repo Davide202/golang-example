@@ -9,39 +9,59 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
-
+const collection = "books"
+var BD DatabaseConfiguration
 
 type BookModel struct {
 	C *mongo.Collection
+	Ctx context.Context
 }
 
-func (m *BookModel) findAll() ([]model.Book,error){
-	ctx := context.TODO()
+func FindAll() (*[]model.Book,error){
+
+	var coll *mongo.Collection
+	_ , ok := DB.ctx.Deadline()
+	if ok {
+		coll = DB.Database.Collection(collection)
+	}else{
+		//todo 
+	}
+	
+	
 	b := []model.Book{}
 
-	cursor,err := m.C.Find(ctx,bson.M{})
+	cursor,err := coll.Find( DB.ctx,bson.M{})
 	if err != nil {return nil,err}
 	
 	//prima opzione
-	for cursor.Next(ctx){
+	for cursor.Next( DB.ctx){
 		var book model.Book
 		cursor.Decode(&book)//should hanlde error 
 		b = append(b, book)
 	}
 	//seconda opzione
-	cursor.All(ctx,&b)//should hanlde error 
+	cursor.All( DB.ctx,&b)//should hanlde error 
 
-	return b,nil
+	return &b,nil
 }
 
-func (m *BookModel) FindById(id string)(*model.Book,error){
+func  FindById(id string)(*model.Book,error){
+
+	var coll *mongo.Collection
+	_ , ok := DB.ctx.Deadline()
+	if ok {
+		coll = DB.Database.Collection(collection)
+	}else{
+		//todo 
+	}
+
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
 
 	var book = model.Book{}
-	err = m.C.FindOne(context.TODO(), bson.M{"_id": p}).Decode(&book)
+	err =  coll.FindOne( DB.ctx, bson.M{"_id": p}).Decode(&book)
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
 			return nil, errors.New("ErrNoDocuments")
@@ -53,15 +73,29 @@ func (m *BookModel) FindById(id string)(*model.Book,error){
 }
 
 
-func (m *BookModel) Insert(booking model.Book) (*mongo.InsertOneResult, error) {
-	return m.C.InsertOne(context.TODO(), booking)
+func  Insert(booking model.Book) (*mongo.InsertOneResult, error) {
+	var coll *mongo.Collection
+	_ , ok := DB.ctx.Deadline()
+	if ok {
+		coll = DB.Database.Collection(collection)
+	}else{
+		//todo 
+	}
+	return coll.InsertOne(DB.ctx, booking)
 }
 
 
-func (m *BookModel) Delete(id string) (*mongo.DeleteResult, error) {
+func  Delete(id string) (*mongo.DeleteResult, error) {
+	var coll *mongo.Collection
+	_ , ok := DB.ctx.Deadline()
+	if ok {
+		coll = DB.Database.Collection(collection)
+	}else{
+		//todo 
+	}
 	p, err := primitive.ObjectIDFromHex(id)
 	if err != nil {
 		return nil, err
 	}
-	return m.C.DeleteOne(context.TODO(), bson.M{"_id": p})
+	return coll.DeleteOne(DB.ctx, bson.M{"_id": p})
 }

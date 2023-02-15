@@ -3,54 +3,60 @@ package controller
 import (
 	"encoding/json"
 	"net/http"
-
+	"startwithmongo/model"
 	"github.com/gorilla/mux"
+	"startwithmongo/util/errors"
+	"startwithmongo/util/logger"
+	"startwithmongo/service"
+	
 )
 
-func (app *application) all(w http.ResponseWriter, r *http.Request) {
+
+
+func  All(w http.ResponseWriter, r *http.Request) {
 	// Get all bookings stored
-	bookings, err := app.bookings.All()
+	/**/ bookings, err := service.FindAllBooks()
 	if err != nil {
-		app.serverError(w, err)
+		errors.ServerError(w, err)
 	}
 
 	// Convert booking list into json encoding
 	b, err := json.Marshal(bookings)
 	if err != nil {
-		app.serverError(w, err)
+		errors.ServerError(w, err)
 	}
 
-	app.infoLog.Println("Books have been listed")
+	logger.Info().Println("Books have been listed")
 
 	// Send response back
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
-	w.Write(b)
+	w.Write(b) 
 }
 
-func (app *application) findByID(w http.ResponseWriter, r *http.Request) {
+func  FindByID(w http.ResponseWriter, r *http.Request) {
 	// Get id from incoming url
 	vars := mux.Vars(r)
 	id := vars["id"]
 
 	// Find booking by id
-	m, err := app.bookings.FindByID(id)
+	m, err := service.FindBookByID(id)
 	if err != nil {
 		if err.Error() == "ErrNoDocuments" {
-			app.infoLog.Println("Book not found")
+			logger.Info().Println("Book not found")
 			return
 		}
 		// Any other error will send an internal server error
-		app.serverError(w, err)
+		errors.ServerError(w, err)
 	}
 
 	// Convert booking to json encoding
 	b, err := json.Marshal(m)
 	if err != nil {
-		app.serverError(w, err)
+		errors.ServerError(w, err)
 	}
 
-	app.infoLog.Println("Have been found a booking")
+	logger.Info().Println("Have been found a booking")
 
 	// Send response back
 	w.Header().Set("Content-Type", "application/json")
@@ -58,34 +64,36 @@ func (app *application) findByID(w http.ResponseWriter, r *http.Request) {
 	w.Write(b)
 }
 
-func (app *application) insert(w http.ResponseWriter, r *http.Request) {
+func Insert(w http.ResponseWriter, r *http.Request) {
 	// Define booking model
-	var m model.Book
+	var m model.BookDTO
 	// Get request information
 	err := json.NewDecoder(r.Body).Decode(&m)
 	if err != nil {
-		app.serverError(w, err)
+		errors.ServerError(w, err)
 	}
 
 	// Insert new booking
-	insertResult, err := app.bookings.Insert(m)
+	insertResult, err := service.InsertOneBook(m)
 	if err != nil {
-		app.serverError(w, err)
+		errors.ServerError(w, err)
 	}
 
-	app.infoLog.Printf("New booking have been created, id=%s", insertResult.InsertedID)
+	logger.Info().Printf("New booking have been created, id=%s", insertResult.InsertedID)
+	w.WriteHeader(http.StatusNoContent)
 }
 
-func (app *application) delete(w http.ResponseWriter, r *http.Request) {
+func Delete(w http.ResponseWriter, r *http.Request) {
 	// Get id from incoming url
 	vars := mux.Vars(r)
 	id := vars["id"]
 
 	// Delete booking by id
-	deleteResult, err := app.bookings.Delete(id)
+	deleteResult, err := service.DeleteBookById(id)
 	if err != nil {
-		app.serverError(w, err)
+		errors.ServerError(w, err)
 	}
 
-	app.infoLog.Printf("Have been eliminated %d booking(s)", deleteResult.DeletedCount)
+	logger.Info().Printf("Have been eliminated %d booking(s)", deleteResult.DeletedCount)
+	w.WriteHeader(http.StatusNoContent)
 }
