@@ -13,7 +13,20 @@ type DatabaseConfiguration struct {
 
 var DB DatabaseConfiguration
 
-func (db *DatabaseConfiguration) Set(Database *mongo.Database, ctx context.Context) {
+func (db *DatabaseConfiguration) Set(
+		Database *mongo.Database, ctx context.Context,
+		) {
 	db.Database = Database
 	db.ctx = ctx
+}
+
+func getCollection(collection string) (*mongo.Collection) {
+	var coll *mongo.Collection
+	_ , ok := DB.ctx.Deadline()
+	if ok {
+		coll = DB.Database.Collection(collection)
+	}else{
+		//todo 
+	}
+	return coll
 }

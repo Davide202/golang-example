@@ -13,54 +13,53 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-const(
-	DATABASE = "golang"
+
+const (
+	DATABASE       = "golang"
 	SERVER_ADDRESS = "SERVER_ADDRESS"
-	SERVER_PORT = "SERVER_PORT"
-	MONGO_URI = "MONGO_URI"
+	SERVER_PORT    = "SERVER_PORT"
+	MONGO_URI      = "MONGO_URI"
 	MONGO_USERNAME = " MONGO_INITDB_ROOT_USERNAME"
 	MONGO_PASSWORD = "MONGO_INITDB_ROOT_PASSWORD"
-
 )
-var(
+
+var (
 	//Application Configuration
 	serverAddr = "localhost"
 	serverPort = "4000"
 	//MongoDB Configuration
-	mongoURI = "mongodb://localhost:27071"
+	mongoURI  = "mongodb://localhost:27071"
 	mongoUser = "mongoadmin"
 	mongoPass = "secret"
-) 
+)
 
-func initializeVariables(){
-	servA , b := os.LookupEnv(SERVER_ADDRESS)
+func initializeVariables() {
+	servA, b := os.LookupEnv(SERVER_ADDRESS)
 	if b {
 		serverAddr = servA
 	}
-	servP , b := os.LookupEnv(SERVER_PORT)
+	servP, b := os.LookupEnv(SERVER_PORT)
 	if b {
 		serverPort = servP
 	}
-	mongo , b := os.LookupEnv(MONGO_URI)
+	mongo, b := os.LookupEnv(MONGO_URI)
 	if b {
 		mongoURI = mongo
 	}
-	mongoU , b := os.LookupEnv(MONGO_USERNAME)
+	mongoU, b := os.LookupEnv(MONGO_USERNAME)
 	if b {
 		mongoUser = mongoU
 	}
-	mongoP , b := os.LookupEnv(MONGO_PASSWORD)
+	mongoP, b := os.LookupEnv(MONGO_PASSWORD)
 	if b {
-		mongoPass = mongoP 
+		mongoPass = mongoP
 	}
 
 }
 
-
-func main(){
+func main() {
 	logger.Info().Println("Starting Application")
 	initializeVariables()
-	
 
 	// Create mongo client configuration
 	co := options.Client().ApplyURI(mongoURI)
@@ -75,7 +74,6 @@ func main(){
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
 	defer cancel()
-	
 
 	err = client.Connect(ctx)
 	if err != nil {
@@ -90,11 +88,11 @@ func main(){
 	logger.Info().Printf("Database connection established")
 
 	Datab := client.Database(DATABASE)
-	
-	(&repository.DB).Set(Datab,ctx)
+
+	(&repository.DB).Set(Datab, ctx)
 
 	// Initialize a new instance of application containing the dependencies.
-	serverURI := fmt.Sprintf("%s:%d", serverAddr, serverPort)
+	serverURI := fmt.Sprintf("%s:%s", serverAddr, serverPort)
 	srv := &http.Server{
 		Addr:         serverURI,
 		ErrorLog:     logger.Error(),

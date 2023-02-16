@@ -20,16 +20,41 @@ type BookDTO struct{
 	Kind     	[]string           `json:"kind"`
 }
 
-func (book *Book) ToDto() (BookDTO){
-	return BookDTO{
+func (book *Book) ToDto() (*BookDTO){
+	return &BookDTO{
 		Title: book.Title,
 		Pages: book.Pages,
 		Kind: book.Kind,
 	}
 }
-func (books *Books) ToDto () ([]BookDTO){
-	
+func (books *Books) ToDto () (*[]BookDTO){
+	var result = make([]BookDTO,0)
+	for _, v := range  books.Books {
+		result = append(result, 
+		BookDTO{
+			Title: v.Title,
+			Pages: v.Pages,
+			Kind: v.Kind,
+		})
+	}
+	return &result
 }
+
+
+func  ToDto (books *[]Book) (*[]BookDTO){
+	var result = make([]BookDTO,0)
+	for _, v := range  *books {
+		result = append(result,  
+			BookDTO{
+				Title: v.Title,
+				Pages: v.Pages,
+				Kind: v.Kind,
+			})
+	}
+	return &result
+}
+
+
 
 func (dto *BookDTO) ToEntity() (Book){
 	return Book{

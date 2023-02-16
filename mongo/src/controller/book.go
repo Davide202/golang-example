@@ -79,7 +79,7 @@ func Insert(w http.ResponseWriter, r *http.Request) {
 		errors.ServerError(w, err)
 	}
 
-	logger.Info().Printf("New booking have been created, id=%s", insertResult.InsertedID)
+	logger.Info().Printf("New book have been created, id=%s", insertResult.InsertedID)
 	w.WriteHeader(http.StatusNoContent)
 }
 
