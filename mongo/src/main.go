@@ -57,6 +57,7 @@ func initializeVariables() {
 
 }
 
+
 func main() {
 	logger.Info().Println("Starting Application")
 	initializeVariables()
