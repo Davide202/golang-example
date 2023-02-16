@@ -3,11 +3,7 @@ package service
 import (
 	"startwithmongo/model"
 	"startwithmongo/repository"
-	"startwithmongo/util/logger"
-	"startwithmongo/util/random"
 
-
-	//"go.mongodb.org/mongo-driver/internal/uuid"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 )
@@ -25,7 +21,12 @@ func FindAllBooks() (*[]model.BookDTO, error) {
 }
 
 func FindBookByID(id string) (*model.BookDTO, error) {
-	book, err := repository.FindById(id)
+
+	p, err := primitive.ObjectIDFromHex(id)
+	if err != nil {
+		return nil, err
+	}
+	book, err := repository.FindById(p)
 	if err != nil {
 		return nil, err
 	}
@@ -33,15 +34,27 @@ func FindBookByID(id string) (*model.BookDTO, error) {
 	return dto, nil
 }
 
+func FindByTitle(title string)(*[]model.BookDTO,error){
+	all, err := repository.FindByTitle(title)
+	if err != nil {
+		return nil, err
+	}
+	dto := model.ToDto(all)
+	if err != nil {
+		return nil, err
+	}
+	return dto, nil
+}
+
 func InsertOneBook(dto model.BookDTO) (*mongo.InsertOneResult, error) {
 	var err error
 	book := dto.ToEntity()
+	/* NON SERVE L'ID SI AUTOGENERA
 	id := random.RandomHexStringFromUUID()
-	
 	book.ID, err = primitive.ObjectIDFromHex(id)
 	if err != nil {
-		logger.Info().Println("ERROR creating book id ")
-	}
+		logger.Info().Println("ERROR creating book id " + err.Error())
+	} */
 	result, err := repository.Insert(book)
 	if err != nil {
 		return nil, err

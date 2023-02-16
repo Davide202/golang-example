@@ -72,8 +72,10 @@ func main() {
 	if err != nil {
 		logger.Error().Fatal(err)
 	}
-	ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
-	defer cancel()
+	// CAPIRE CHE PROBLEMA COMPORTA QUESTA VARIAZIONE CON IL CONTEXT SENZA TIME OUT
+	//ctx, cancel := context.WithTimeout(context.Background(), 20*time.Second)
+	//defer cancel()
+	ctx := context.Background()
 
 	err = client.Connect(ctx)
 	if err != nil {

@@ -21,12 +21,13 @@ func (db *DatabaseConfiguration) Set(
 }
 
 func getCollection(collection string) (*mongo.Collection) {
-	var coll *mongo.Collection
+	/* var coll *mongo.Collection
 	_ , ok := DB.ctx.Deadline()
 	if ok {
 		coll = DB.Database.Collection(collection)
 	}else{
 		//todo 
 	}
-	return coll
+	return coll */
+	return DB.Database.Collection(collection)
 }

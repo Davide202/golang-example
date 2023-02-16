@@ -60,7 +60,174 @@
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Get By Id",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/bookings/:id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"bookings",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "63ee01ba55fc97ab39b92e7c"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 16 Feb 2023 13:42:06 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "71"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"title\": \"Il nome della rosa\",\n    \"pages\": 1000,\n    \"kind\": [\n        \"noia\",\n        \"uccisioni\"\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Get By Title",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/bookings/title/:title",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"bookings",
+						"title",
+						":title"
+					],
+					"variable": [
+						{
+							"key": "title",
+							"value": "Il nome della rosa"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get By Title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/bookings/title/:title",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"bookings",
+								"title",
+								":title"
+							],
+							"variable": [
+								{
+									"key": "title",
+									"value": "Il nome della rosa"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 16 Feb 2023 13:55:30 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "217"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    },\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    },\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    }\n]"
+				},
+				{
+					"name": "Get By Title",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/bookings/title/:title",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"bookings",
+								"title",
+								":title"
+							],
+							"variable": [
+								{
+									"key": "title",
+									"value": "nome"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 16 Feb 2023 14:57:14 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "289"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    },\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    },\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    },\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    }\n]"
+				}
+			]
 		},
 		{
 			"name": "Delete By Id",
@@ -90,12 +257,65 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "Get All",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4000/api/bookings/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"bookings",
+						""
+					]
+				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "New Request",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/bookings/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"bookings",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 16 Feb 2023 11:58:32 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "217"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    },\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    },\n    {\n        \"title\": \"Il nome della rosa\",\n        \"pages\": 1000,\n        \"kind\": [\n            \"noia\",\n            \"uccisioni\"\n        ]\n    }\n]"
+				}
+			]
 		}
 	]
 }
