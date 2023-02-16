@@ -76,6 +76,7 @@ func FindByTitle(w http.ResponseWriter, r *http.Request) {
 	// Get id from incoming url
 	vars := mux.Vars(r)
 	title := vars["title"]
+	logger.Info().Println("Looking for book by title: " + title)
 	/**/
 	bookings, err := service.FindByTitle(title)
 	if err != nil {
@@ -90,7 +91,7 @@ func FindByTitle(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	logger.Info().Println("Books have been listed")
+	logger.Info().Println("Books have been listed ")
 
 	// Send response back
 	w.Header().Set("Content-Type", "application/json")
