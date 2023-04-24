@@ -13,6 +13,7 @@ import (
 )
 
 func All(w http.ResponseWriter, r *http.Request) {
+	
 	// Get all bookings stored
 	/**/
 	bookings, err := service.FindAllBooks()
